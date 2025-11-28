@@ -1,0 +1,137 @@
+{
+  "globalRanking": [
+    {
+      "id": 3,
+      "nickname": "Lucy",
+      "score": 60
+    },
+    {
+      "id": 0,
+      "nickname": "Tom",
+      "score": 55
+    },
+    {
+      "id": 2,
+      "nickname": "Mike",
+      "score": 50
+    },
+    {
+      "id": 5,
+      "nickname": "Lucas",
+      "score": 40
+    },
+    {
+      "id": 1,
+      "nickname": "Jerry",
+      "score": 20
+    },
+    {
+      "id": 4,
+      "nickname": "Lily",
+      "score": 10
+    }
+  ],
+  "currentUser": {
+    "id": 0,
+    "nickname": "Tom",
+    "score": 55
+  },
+  "userList": [
+    {
+      "id": 3,
+      "nickname": "Lucy",
+      "score": 60
+    },
+    {
+      "id": 0,
+      "nickname": "Tom",
+      "score": 55
+    },
+    {
+      "id": 2,
+      "nickname": "Mike",
+      "score": 50
+    },
+    {
+      "id": 5,
+      "nickname": "Lucas",
+      "score": 40
+    },
+    {
+      "id": 1,
+      "nickname": "Jerry",
+      "score": 20
+    },
+    {
+      "id": 4,
+      "nickname": "Lily",
+      "score": 10
+    }
+  ],
+  "socialNetwork": {
+    "Mike": [
+      "Tom",
+      "Lucas",
+      "Jerry"
+    ],
+    "Tom": [
+      "Mike",
+      "Lucy",
+      "Jerry"
+    ],
+    "Lucas": [
+      "Mike",
+      "Lucy",
+      "Lily"
+    ],
+    "Lucy": [
+      "Tom",
+      "Lucas",
+      "Jerry",
+      "Lily"
+    ],
+    "Jerry": [
+      "Mike",
+      "Tom",
+      "Lucy"
+    ],
+    "Lily": [
+      "Lucas",
+      "Lucy"
+    ]
+  },
+  "friends": [
+    {
+      "id": 0,
+      "nickname": "Tom",
+      "score": 55
+    },
+    {
+      "id": 2,
+      "nickname": "Mike",
+      "score": 50
+    },
+    {
+      "id": 1,
+      "nickname": "Jerry",
+      "score": 20
+    }
+  ],
+  "localRanking": [
+    {
+      "id": 0,
+      "nickname": "Tom",
+      "score": 55
+    },
+    {
+      "id": 2,
+      "nickname": "Mike",
+      "score": 50
+    },
+    {
+      "id": 1,
+      "nickname": "Jerry",
+      "score": 20
+    }
+  ]
+}

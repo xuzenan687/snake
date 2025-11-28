@@ -1,0 +1,33 @@
+{
+  "globalRanking": [
+    { "id": 0, "nickname": "Tom", "score": 10 },
+    { "id": 1, "nickname": "Mike", "score": 50 },
+    { "id": 2, "nickname": "Lucy", "score": 60 },
+    { "id": 3, "nickname": "Lily", "score": 40 },
+    { "id": 4, "nickname": "Jerry", "score": 30 },
+    { "id": 5, "nickname": "Lucas", "score": 45 }
+  ],
+  "currentUser": { "id": 0, "nickname": "Tom", "score": 10 },
+  "userList": [
+    { "id": 0, "nickname": "Tom", "score": 10 },
+    { "id": 1, "nickname": "Mike", "score": 50 },
+    { "id": 2, "nickname": "Lucy", "score": 60 },
+    { "id": 3, "nickname": "Lily", "score": 40 },
+    { "id": 4, "nickname": "Jerry", "score": 30 },
+    { "id": 5, "nickname": "Lucas", "score": 45 }
+  ],
+  "socialNetwork": {
+    "Tom": ["Mike", "Lucy"],
+    "Mike": ["Tom", "Jerry"],
+    "Lucy": ["Tom", "Lily"],
+    "Lily": ["Lucy", "Lucas"],
+    "Jerry": ["Mike"],
+    "Lucas": ["Lily"]
+  },
+  "friends": ["Mike", "Lucy"],
+  "localRanking": [
+    { "id": 0, "nickname": "Tom", "score": 10 },
+    { "id": 3, "nickname": "Lily", "score": 40 },
+    { "id": 4, "nickname": "Jerry", "score": 30 }
+  ]
+}
