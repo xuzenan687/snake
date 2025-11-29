@@ -75,14 +75,9 @@ public class MaxHeap {
     }
 
     // 3. 堆排序（升序：利用大顶堆依次取堆顶）
-    public Player[] heapSort() {
-        ArrayList<Player> temp = new ArrayList<>(heap); // 备份原堆
-        Player[] result = new Player[heap.size()];
-        for (int i = 0; i < result.length; i++) {
-            result[i] = removeTop(); // 每次取堆顶（最大值）放入结果
-        }
-        heap = temp; // 恢复原堆
-        return result;
+    public void heapSort() {
+        //对自身排序
+
     }
 
     // 4. 获取堆顶元素

@@ -79,10 +79,7 @@ public class CommonFriendFrame extends JFrame {
             String selectedFriend = (String) friendCombo.getSelectedItem();
             updateTable(tableModel, currentUser.getNickname(), selectedFriend);
         });
-
-        // 默认显示第一个好友的共同好友
-        friendCombo.setSelectedIndex(0);
-
+        friendCombo.setSelectedIndex(0); // 默认选择第一个好友
         setVisible(true);
     }
 
@@ -90,8 +87,12 @@ public class CommonFriendFrame extends JFrame {
     private void updateTable(DefaultTableModel tableModel, String myName, String friendName) {
         tableModel.setRowCount(0);
         List<Player> commonFriends = new ArrayList<>();
-        for(String friend : Data.getSocialNetwork().commonFriendsBFS(myName, friendName))
-            commonFriends.add(Data.getUserList().get(friend));
+        Set<String> commonFriendName = Data.getSocialNetwork().commonFriendsBFS(myName, friendName);
+        for(String friend : commonFriendName){
+            if(Data.getUserList().containsKey(friend)){
+                commonFriends.add(Data.getUserList().get(friend));
+            }
+        }
         for (Player p : commonFriends) {
             tableModel.addRow(new Object[]{p.getNickname(), p.getScore(), "添加好友"});
         }

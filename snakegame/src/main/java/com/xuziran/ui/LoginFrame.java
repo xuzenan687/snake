@@ -1,6 +1,7 @@
 package com.xuziran.ui;
 
 import com.xuziran.pojo.Data;
+import com.xuziran.pojo.Player;
 import com.xuziran.util.UIStyle;
 
 import javax.swing.*;
@@ -8,11 +9,11 @@ import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
-public class MainMenuFrame extends JFrame {
+public class LoginFrame extends JFrame {
 
-    public MainMenuFrame() {
-        setTitle("游戏大厅(当前用户："+Data.getCurrentUser().getNickname()+")");
-        setSize(450, 350);
+    public LoginFrame() throws HeadlessException {
+        setTitle("登入页面");
+        setSize(450, 300);
         setLocationRelativeTo(null); // 居中
 
         // 阻止窗口直接关闭，改为手动保存数据
@@ -35,21 +36,30 @@ public class MainMenuFrame extends JFrame {
         JLabel title = new JLabel("多人竞技大厅", SwingConstants.CENTER);
         title.setFont(new Font("Microsoft YaHei", Font.BOLD, 26));
         main.add(title, BorderLayout.NORTH);
+        // 输入框
+        JTextField tfUser = new JTextField();
 
-        JButton btnStart   = UIStyle.bigButton("开始游戏");
-        JButton btnRank    = UIStyle.bigButton("排行榜");
-        JButton btnFriend  = UIStyle.bigButton("好友管理");
+        JPanel panel = new JPanel();
+        tfUser.setPreferredSize(new Dimension(200,40));
+        panel.add(new JLabel("昵称："));
+        panel.add(tfUser);
 
-        btnStart.addActionListener(e -> new SnakeGame().setVisible(true));
-        btnRank.addActionListener(e -> new LeaderboardFrame().setVisible(true));
-        btnFriend.addActionListener(e -> new FriendManagerFrame().setVisible(true));
+        JButton btnLogin   = UIStyle.bigButton("登陆");
 
-        JPanel panel = new JPanel(new GridLayout(3,1,10,10));
-        panel.add(btnStart);
-        panel.add(btnRank);
-        panel.add(btnFriend);
+        btnLogin.addActionListener(e -> {
+            Data.load();//原始数据加载完毕
+            Data.loadCurrentUser(tfUser.getText());
+            Data.loadFriendList(tfUser.getText());
+            Data.loadLocalRanking(tfUser.getText());
+            new MainMenuFrame().setVisible(true);
+            this.dispose();
+        });
 
-        main.add(panel, BorderLayout.CENTER);
+        JPanel mid = new JPanel(new GridLayout(3,1,10,10));
+        mid.add(panel);
+        mid.add(btnLogin);
+
+        main.add(mid, BorderLayout.CENTER);
         add(main);
     }
 }

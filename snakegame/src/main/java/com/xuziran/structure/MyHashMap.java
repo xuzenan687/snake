@@ -150,4 +150,7 @@ public class MyHashMap {
         }
         size = 0;
     }
+    public boolean containsKey(String key) {
+        return get(key) != null;
+    }
 }

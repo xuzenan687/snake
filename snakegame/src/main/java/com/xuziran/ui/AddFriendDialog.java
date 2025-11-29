@@ -1,5 +1,6 @@
 package com.xuziran.ui;
 
+import com.xuziran.pojo.Data;
 import com.xuziran.util.UIStyle;
 
 import javax.swing.*;
@@ -27,8 +28,14 @@ public class AddFriendDialog extends JDialog {
 
         btnOK.addActionListener(e -> {
             // 添加好友
-            JOptionPane.showMessageDialog(this, "添加成功！");
-            // TODO: 发送好友请求
+            String friend = tfFriend.getText();
+            if(Data.getUserList().containsKey(friend)){
+                Data.getFriends().put(friend, Data.getUserList().get(friend));
+                Data.getSocialNetwork().addEdge(Data.getCurrentUser().getNickname(), friend);
+                JOptionPane.showMessageDialog(this, "添加成功！");
+            }else{
+                JOptionPane.showMessageDialog(this, "用户不存在！");
+            }
             dispose();
         });
 

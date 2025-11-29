@@ -28,7 +28,10 @@ public class FriendManagerFrame extends JFrame {
         JButton btnRecommend = new JButton("推荐好友");
         JButton btnRefresh = new JButton("共同好友");
 
-        btnAdd.addActionListener(e -> new AddFriendDialog(this).setVisible(true));
+        btnAdd.addActionListener(e -> {
+            new AddFriendDialog(this).setVisible(true);
+            refreshTable();
+        });
         btnSearch.addActionListener(e -> new SearchFriendFrame().setVisible( true));
         btnRecommend.addActionListener(e -> new RecommendFriendFrame().setVisible( true));
         btnRefresh.addActionListener(e -> new CommonFriendFrame().setVisible( true));

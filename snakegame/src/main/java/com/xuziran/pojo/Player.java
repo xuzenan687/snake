@@ -10,6 +10,11 @@ import lombok.NoArgsConstructor;
 public class Player {
     Integer id;
     String nickname;
-    Integer score;
+    Integer score=0;
+    public void setCurrentUser(Player player) {
+        this.id = player.getId();
+        this.nickname = player.getNickname();
+        this.score = (player.getScore() == null ? 0 : player.getScore());
+    }
 
 }

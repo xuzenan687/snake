@@ -12,7 +12,9 @@ public class Graph {
 
     // 添加顶点
     public void addVertex(String name) {
-        adjList.putIfAbsent(name, new HashSet<>());
+        if (!adjList.containsKey(name)) {
+            adjList.put(name, new HashSet<>());
+        }
     }
 
     // 添加好友关系（无向）
@@ -32,13 +34,15 @@ public class Graph {
 
     // 删除边
     public void removeEdge(String name1, String name2) {
+        //getOrDefault
         adjList.getOrDefault(name1, new HashSet<>()).remove(name2);
         adjList.getOrDefault(name2, new HashSet<>()).remove(name1);
     }
 
     // 获取邻居（直接好友）
     public Set<String> getNeighbors(String name) {
-        return adjList.getOrDefault(name, Collections.emptySet());
+        //获取邻居
+        return adjList.getOrDefault(name, new HashSet<>());
     }
 
     public void clear() {
@@ -87,15 +91,16 @@ public class Graph {
         return res;
     }
 
-    // ---------------- BFS 获取直接好友（第一层） ----------------
-    public Set<String> bfsFriends(String start) {
-        return new HashSet<>(getNeighbors(start));
-    }
 
     // ---------------- BFS 求共同好友 ----------------
     public Set<String> commonFriendsBFS(String a, String b) {
-        Set<String> A = bfsFriends(a);
-        Set<String> B = bfsFriends(b);
+        if (a == null || b == null) return Collections.emptySet();
+
+        Set<String> A = new HashSet<>(getNeighbors(a));
+        Set<String> B = new HashSet<>(getNeighbors(b));
+        // 去除自己与好友
+        A.remove(b);
+        B.remove(a);
 
         Set<String> res = new HashSet<>();
         for (String x : A) {
@@ -104,15 +109,16 @@ public class Graph {
         return res;
     }
 
-    // ---------------- DFS 获取直接好友 ----------------
-    public Set<String> dfsFriends(String start) {
-        return new HashSet<>(getNeighbors(start));
-    }
 
     // ---------------- DFS 求共同好友 ----------------
     public Set<String> commonFriendsDFS(String a, String b) {
-        Set<String> A = dfsFriends(a);
-        Set<String> B = dfsFriends(b);
+        if (a == null || b == null) return Collections.emptySet();// 返回空集合
+        Set<String> A = new HashSet<>(getNeighbors(a));
+        Set<String> B = new HashSet<>(getNeighbors(b));
+        // 去除自己与好友
+        A.remove(b);
+        B.remove(a);
+
 
         Set<String> res = new HashSet<>();
         for (String x : A) {
