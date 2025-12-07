@@ -47,15 +47,11 @@ public class CommonFriendFrame extends JFrame {
 
         // 设置字体大小
         friendCombo.setFont(new Font("Microsoft YaHei", Font.PLAIN, 22));
-
-// 设置首选大小（宽，高）
         friendCombo.setPreferredSize(new Dimension(200, 40));
-
-// 添加到顶部
         add(friendCombo, BorderLayout.NORTH);
 
         // 表格
-        String[] columnNames = {"昵称", "得分", "操作"};
+        String[] columnNames = {"昵称", "历史最高分", "操作"};
         DefaultTableModel tableModel = new DefaultTableModel(columnNames, 0) {
             @Override
             public boolean isCellEditable(int row, int column) {
@@ -87,7 +83,7 @@ public class CommonFriendFrame extends JFrame {
     private void updateTable(DefaultTableModel tableModel, String myName, String friendName) {
         tableModel.setRowCount(0);
         List<Player> commonFriends = new ArrayList<>();
-        Set<String> commonFriendName = Data.getSocialNetwork().commonFriendsBFS(myName, friendName);
+        Set<String> commonFriendName = Data.getSocialNetwork().commonFriends(myName, friendName);
         for(String friend : commonFriendName){
             if(Data.getUserList().containsKey(friend)){
                 commonFriends.add(Data.getUserList().get(friend));

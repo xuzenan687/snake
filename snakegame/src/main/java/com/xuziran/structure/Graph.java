@@ -92,8 +92,7 @@ public class Graph {
     }
 
 
-    // ---------------- BFS 求共同好友 ----------------
-    public Set<String> commonFriendsBFS(String a, String b) {
+    public Set<String> commonFriends(String a, String b) {
         if (a == null || b == null) return Collections.emptySet();
 
         Set<String> A = new HashSet<>(getNeighbors(a));
@@ -101,24 +100,6 @@ public class Graph {
         // 去除自己与好友
         A.remove(b);
         B.remove(a);
-
-        Set<String> res = new HashSet<>();
-        for (String x : A) {
-            if (B.contains(x)) res.add(x);
-        }
-        return res;
-    }
-
-
-    // ---------------- DFS 求共同好友 ----------------
-    public Set<String> commonFriendsDFS(String a, String b) {
-        if (a == null || b == null) return Collections.emptySet();// 返回空集合
-        Set<String> A = new HashSet<>(getNeighbors(a));
-        Set<String> B = new HashSet<>(getNeighbors(b));
-        // 去除自己与好友
-        A.remove(b);
-        B.remove(a);
-
 
         Set<String> res = new HashSet<>();
         for (String x : A) {
@@ -157,7 +138,7 @@ public class Graph {
             if (a.commonFriends != b.commonFriends)
                 return b.commonFriends - a.commonFriends;
             return a.scoreDiff - b.scoreDiff;
-        });
+        });//自定义比较器
 
         List<Player> result = new ArrayList<>();
         for (PlayerRecommend r : candidates) result.add(r.player);

@@ -19,12 +19,7 @@ public class Data {
     private static Graph socialNetwork = new Graph();//社交网络
     private static MaxHeap localRanking = new MaxHeap();//本地排行榜
     private static MaxHeap globalRanking = new MaxHeap();//全球排行榜
-    private static Integer primaryKey;//主键
-
-    public static Integer getPrimaryKey() {
-        primaryKey=getUserList().size();
-        return primaryKey;
-    }
+    public static Integer getPrimaryKey() {return getUserList().size();}
     public static MaxHeap getLocalRanking() {
         return localRanking;
     }
@@ -36,42 +31,43 @@ public class Data {
 
 
     public static void save() {
-        try {
-            Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        Map<String, Object> map = new HashMap<>();
 
-            Map<String, Object> map = new HashMap<>();
+        map.put("userList", userList.getSortedList());
+        map.put("globalRanking", globalRanking.getSortedList());
+        map.put("socialNetwork", socialNetwork.toSerializableMap());
 
-            map.put("userList", userList.getSortedList());
-            map.put("globalRanking", globalRanking.getSortedList());
-            map.put("socialNetwork", socialNetwork.toSerializableMap());
+        String path = "snakegame/src/main/resources/data.json";
+        File real = new File(path);
 
-            String path = "snakegame/src/main/resources/data.json";
-            FileWriter fw = new FileWriter(path);
-
+        try (FileWriter fw = new FileWriter(real)) {
             gson.toJson(map, fw);
-            fw.close();
-
-            System.out.println("数据保存成功！");
-
         } catch (Exception e) {
-            e.printStackTrace();
+            System.err.println("数据保存失败：" + e.getMessage());
         }
+        System.out.println("数据保存成功！");
     }
     public static void load() {
         String path = "snakegame/src/main/resources/data.json";
         File file = new File(path);
 
+        // 如果不存在，创建空文件并写入初始数据
         if (!file.exists()) {
-            System.out.println("第一次运行，初始化默认数据");
-            //init();
-            return;
+            System.out.println("首次运行：data.json 不存在，自动创建空数据文件...");
+            saveEmptyData(path);
         }
-        try {
-            Gson gson = new Gson();
-            FileReader fr = new FileReader(file);
 
+        try (FileReader fr = new FileReader(file)) {
+            Gson gson = new Gson();
             Type type = new TypeToken<Map<String, Object>>(){}.getType();
             Map<String, Object> data = gson.fromJson(fr, type);
+
+            if (data == null) {
+                System.err.println("数据解析失败：JSON为空或损坏");
+                return;
+            }
+
             fr.close();
 
             // 清空原数据
@@ -116,14 +112,14 @@ public class Data {
                 );
                 globalRanking.insert(p);
             }
-                        System.out.println("数据加载成功！");
+            System.out.println("数据加载成功！");
 
         } catch (Exception e) {
-            e.printStackTrace();
-            //init();
+            System.err.println("数据加载失败：" + e.getMessage());
         }
     }
     public  static void loadCurrentUser(String myName) {
+        if (myName == null || myName.isEmpty()) return;
         if(userList.containsKey(myName)){
             currentUser = userList.get(myName);
         }else{
@@ -134,16 +130,19 @@ public class Data {
         }
     }
     public static void loadFriendList(String myName) {
+        friends.clear();
         Set<String> nicknames = socialNetwork.getNeighbors(myName);
+        if (nicknames == null) return;
         for(String nickname : nicknames){
             if(userList.containsKey(nickname)){
                 friends.put(nickname,userList.get(nickname));
             }else{
-                new Exception("用户不存在");
+                System.err.println("警告：社交网络中的用户不存在：" + nickname);
             }
         }
     }
     public static void loadLocalRanking(String myName) {
+        localRanking.clear();
         Set<String> nicknames = new HashSet<>(socialNetwork.getNeighbors(myName));//返回一个副本
         nicknames.add(myName);//添加自己
         for(String nickname : nicknames){
@@ -152,60 +151,31 @@ public class Data {
             }
         }
     }
-//    public static void init(){
-//        //当前用户信息
-//        currentUser.setId(getPrimaryKey());
-//        currentUser.setNickname("Tom");
-//        currentUser.setScore(10);
-//
-//        //创建用户列表
-//        Player Jerry = new Player(getPrimaryKey(),"Jerry",20);
-//        Player Mike = new Player(getPrimaryKey(),"Mike",50);
-//        Player Lucy = new Player(getPrimaryKey(),"Lucy",60);
-//        Player Lily = new Player(getPrimaryKey(),"Lily",10);
-//        Player Lucas = new Player(getPrimaryKey(),"Lucas",40);
-//        userList.put("Tom",currentUser);
-//        userList.put("Jerry",Jerry);
-//        userList.put("Mike",Mike);
-//        userList.put("Lucy",Lucy);
-//        userList.put("Lily",Lily);
-//        userList.put("Lucas",Lucas);
-//
-//
-//        //创建好友列表
-//        friends.put(currentUser.getNickname(), currentUser);
-//        friends.put("Jerry",Jerry);
-//        friends.put("Mike",Mike);
-//
-//        //创建社交网络
-//        socialNetwork.addVertex("Tom");
-//        socialNetwork.addVertex("Jerry");
-//        socialNetwork.addVertex("Mike");
-//        socialNetwork.addVertex("Lucy");
-//        socialNetwork.addVertex("Lily");
-//        socialNetwork.addVertex("Lucas");
-//        socialNetwork.addEdge("Tom", "Jerry");
-//        socialNetwork.addEdge("Tom", "Mike");
-//        socialNetwork.addEdge("Jerry", "Mike");
-//        socialNetwork.addEdge("Jerry", "Lucy");
-//        socialNetwork.addEdge("Mike", "Lucas");
-//        socialNetwork.addEdge("Lucy", "Lily");
-//        socialNetwork.addEdge("Lucy", "Lucas");
-//
-//
-//
-//        //创建排行榜
-//        //本地排行榜
-//        for (Player player:friends.getSortedList()){
-//            localRanking.insert(player);
-//        }
-//        //全球排行榜
-//        for (Player player:userList.getSortedList()){
-//            globalRanking.insert(player);
-//        }
-//
-//
-//    }
+    private static void saveEmptyData(String path) {
+        try {
+            Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
+            Map<String, Object> empty = new HashMap<>();
+            empty.put("userList", new ArrayList<>());
+            empty.put("globalRanking", new ArrayList<>());
+            empty.put("socialNetwork", new HashMap<>());
+
+            File f = new File(path);
+
+            // 确保目录存在
+            File parent = f.getParentFile();
+            if (!parent.exists()) {
+                parent.mkdirs();
+            }
+
+            try (FileWriter writer = new FileWriter(f)) {
+                gson.toJson(empty, writer);
+            }
+
+            System.out.println("成功创建空 data.json");
+        } catch (Exception e) {
+            System.err.println("创建空 data.json 失败：" + e.getMessage());
+        }
+    }
 
 }

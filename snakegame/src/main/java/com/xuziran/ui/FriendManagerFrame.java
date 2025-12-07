@@ -55,13 +55,8 @@ public class FriendManagerFrame extends JFrame {
         // 行高
         table.setRowHeight(35);
 
-// 设置表格字体
         table.setFont(new Font("Microsoft YaHei", Font.PLAIN, 22));
-
-// 设置表头字体
         table.getTableHeader().setFont(new Font("Microsoft YaHei", Font.BOLD, 22));
-
-// 表头高度
         table.getTableHeader().setPreferredSize(new Dimension(0, 35));
 
 

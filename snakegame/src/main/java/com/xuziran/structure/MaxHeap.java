@@ -8,12 +8,10 @@ import java.util.List;
 public class MaxHeap {
     private List<Player> heap; // 用动态数组存储堆元素（完全二叉树的层序遍历）
 
-    // 构造器
     public MaxHeap() {
         heap = new ArrayList<>();
     }
 
-    // 1. 插入元素（尾部插入，向上调整）
     public void insert(Player player) {
         heap.add(player); // 新增元素到堆尾
         siftUp(heap.size() - 1); // 从最后一个索引上浮调整
@@ -29,18 +27,6 @@ public class MaxHeap {
             swap(index, parentIndex);
             index = parentIndex; // 继续向上调整
         }
-    }
-
-    // 2. 删除堆顶元素（堆顶与堆尾交换，向下调整）
-    public Player removeTop() {
-        if (heap.isEmpty()) throw new RuntimeException("堆为空！");
-        Player top = heap.get(0); // 保存堆顶（最大值）
-        Player lastVal = heap.remove(heap.size() - 1); // 删除堆尾元素
-        if (!heap.isEmpty()) {
-            heap.set(0, lastVal); // 堆尾元素放到堆顶
-            siftDown(0); // 从根节点下沉调整
-        }
-        return top;
     }
 
     // 下沉调整（维护大顶堆：父节点<子节点则交换，选较大子节点）
@@ -67,26 +53,28 @@ public class MaxHeap {
         }
     }
 
-    // 辅助：交换两个索引的元素
+    public Player removeTop() {
+        if (heap.isEmpty()) throw new RuntimeException("堆为空！");
+        Player top = heap.get(0); // 保存堆顶（最大值）
+        Player lastVal = heap.remove(heap.size() - 1); // 删除堆尾元素
+        if (!heap.isEmpty()) {
+            heap.set(0, lastVal); // 堆尾元素放到堆顶
+            siftDown(0); // 从根节点下沉调整
+        }
+        return top;
+    }
+
     private void swap(int i, int j) {
         Player temp = heap.get(i);
         heap.set(i, heap.get(j));
         heap.set(j, temp);
     }
 
-    // 3. 堆排序（升序：利用大顶堆依次取堆顶）
-    public void heapSort() {
-        //对自身排序
-
-    }
-
-    // 4. 获取堆顶元素
     public Player getTop() {
         if (heap.isEmpty()) throw new RuntimeException("堆为空！");
         return heap.get(0);
     }
 
-    // 5. 堆大小
     public int size() {
         return heap.size();
     }

@@ -12,7 +12,7 @@ public class SearchFriendFrame extends JFrame {
     public SearchFriendFrame() {
 
         setTitle("查找好友");
-        setSize(400, 150);
+        setSize(400, 100);
         setLocationRelativeTo(null);
 
         JPanel panel = new JPanel();

@@ -8,13 +8,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Player {
-    Integer id;
-    String nickname;
+    Integer id=0;
+    String nickname="";
     Integer score=0;
-    public void setCurrentUser(Player player) {
-        this.id = player.getId();
-        this.nickname = player.getNickname();
-        this.score = (player.getScore() == null ? 0 : player.getScore());
-    }
-
 }

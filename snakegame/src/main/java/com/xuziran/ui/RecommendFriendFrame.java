@@ -19,7 +19,7 @@ public class RecommendFriendFrame extends JFrame {
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
-        String[] columnNames = {"昵称", "得分", "操作"};
+        String[] columnNames = {"昵称", "历史最高分", "操作"};
         DefaultTableModel tableModel = new DefaultTableModel(columnNames, 0) {
             @Override
             public boolean isCellEditable(int row, int column) {
